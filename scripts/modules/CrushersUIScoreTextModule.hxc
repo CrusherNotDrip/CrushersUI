@@ -71,6 +71,7 @@ class CrushersUIScoreTextModule extends Module
 
 	var playState:PlayState = null;
 	var scoreTxt:FlxText = null;
+	var playScoreText:FlxText = null;
 
 	public function new():Void
 	{
@@ -84,16 +85,21 @@ class CrushersUIScoreTextModule extends Module
 		super.onStateChangeEnd(event);
 
 		playState = PlayState.instance;
+		playScoreText = playState.scoreText;
 
-		playState.scoreText.visible = false;
-		playState.scoreText.active = false;
+		scoreTxt = new FlxText(0, playScoreText.y, FlxG.width, '', playScoreText.size);
+		scoreTxt.setFormat(playScoreText.font, playScoreText.size, playScoreText.color,
+			'center', playScoreText.borderStyle, playScoreText.borderColor);
 
-		scoreTxt = new FlxText(0, playState.scoreText.y, FlxG.width, '', playState.scoreText.size);
-		scoreTxt.setFormat(Paths.font('vcr.ttf'), playState.scoreText.size, playState.scoreText.color,
-			'center', playState.scoreText.borderStyle, playState.scoreText.borderColor);
-
+		scoreTxt.bold = playScoreText.bold;
+		scoreTxt.borderSize = playScoreText.borderSize;
+		scoreTxt.borderQuality = playScoreText.borderQuality;
+		scoreTxt.italic = playScoreText.italic;
+		scoreTxt.letterSpacing = playScoreText.letterSpacing;
+		scoreTxt.underline = playScoreText.underline;
+		scoreTxt.wordWrap = playScoreText.wordWrap;
 		scoreTxt.screenCenter('x');
-		scoreTxt.scrollFactor.set(playState.scoreText.scrollFactor.x, playState.scoreText.scrollFactor.y);
+		scoreTxt.scrollFactor.set(playScoreText.scrollFactor.x, playScoreText.scrollFactor.y);
 		scoreTxt.zIndex = returnScoreTxtZIndex();
 		scoreTxt.cameras = [playState.camHUD];
 		playState.add(scoreTxt);
@@ -103,6 +109,12 @@ class CrushersUIScoreTextModule extends Module
 	public override function onUpdate(event:ScriptEvent):Void
 	{
 		super.onUpdate(event);
+
+		if (playScoreText != null)
+		{
+			playScoreText.visible = false;
+			playScoreText.active = false;
+		}
 
 		if(scoreTxt != null)
 		{
