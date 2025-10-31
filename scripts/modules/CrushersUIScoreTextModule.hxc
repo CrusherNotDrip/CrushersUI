@@ -9,6 +9,7 @@ import flixel.FlxG;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.text.FlxTextBorderStyle;
+import flixel.util.FlxStringUtil;
 
 class CrushersUIScoreTextModule extends Module
 {
@@ -132,7 +133,7 @@ class CrushersUIScoreTextModule extends Module
 				return playState.iconP1.zIndex + 1;
 		}
 
-		return playState.scoreText.zIndex + 1;
+		return playScoreText.zIndex + 1;
 	}
 
 	function getScoreText():String
@@ -140,7 +141,7 @@ class CrushersUIScoreTextModule extends Module
 		return BRACKETS[0]
 		+ 'Score'
 		+ TEXT_SPLITTER
-		+ playState.songScore
+		+ FlxStringUtil.formatMoney(playState.songScore, false, true)
 		+ BRACKETS[1];
 	}
 
